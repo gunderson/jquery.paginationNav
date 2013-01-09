@@ -29,23 +29,18 @@ In your web page:
 
 The total number of pages to page through.
 
-#### transitionFrom: 1,
 
-    default = 1;
+#### visibleNums
 
-The direction of the pagination. If the new page number is greater than the previous page, returns 1. If the new page number is less than the previous page, returns -1.
+    default = 5;
 
-#### visiblePrev
+Number of digits to show.
 
-    default = 2;
-
-Number of digits to show before to the active number.
-
-#### visibleNext
+#### currentPosition
 
     default = 2;
 
-Number of digits to show after to the active number.
+0-indexed position of the currently active page number as the page numbers scroll through
 
 #### showPrev
 
@@ -83,12 +78,16 @@ Whether to loop back to the beginning if next is pressed while on the final numb
 
 	data: {
 		pageNumber: 0,
-		transitionFrom: 1
+		direction: 1
 	}
 
 Dispatched when the page number is changed
 
+##### direction
 
+    default = 1;
+
+The direction of the pagination. If the new page number is greater than the previous page, returns 1. If the new page number is less than the previous page, returns -1.
 
 
 
