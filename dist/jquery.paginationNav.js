@@ -1,3 +1,7 @@
+/*! jquery.paginationNav - v0.1.0 - 2013-01-08
+* https://github.com/gunderson/jquery.paginationNav
+* Copyright (c) 2013 Patrick Gunderson; Licensed MIT */
+
 (function( $ ){
 
   $.fn.paginationNav = function(options) {
