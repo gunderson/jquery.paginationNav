@@ -11,7 +11,8 @@
         showPrev: true,
         showNext: true,
         showFirst: true,
-        showLast: true
+        showLast: true,
+        loop: false
     };
     $.extend(this, this.defaultSettings);
     $.extend(this, options);
@@ -29,11 +30,17 @@
                 pageNumber += this.numPages;
             }
 
+            if (pageNumber - this.pageNumber < 0){
+                this.transitionFrom = -1;
+            } else {
+                this.transitionFrom = 1;
+            }
+
             //build display
             this.rebuild(pageNumber);
 
             //tell the world what you've done
-            this.trigger("setPage", {pageNumber:pageNumber});
+            this.trigger("setPage", {pageNumber:pageNumber, transitionFrom: this.transitionFrom});
         }
     };
 
@@ -105,7 +112,7 @@
     /*--------------------------------------------------*/
 
     this.nextPage = function() {
-        if (this.pageNumber + 1 < this.numPages) {
+        if (this.pageNumber + 1 < this.numPages || this.loop) {
             this.setPage(this.pageNumber + 1);
         }
     };
@@ -113,7 +120,7 @@
     /*--------------------------------------------------*/
 
     this.prevPage = function() {
-        if (this.pageNumber - 1 >= 0) {
+        if (this.pageNumber - 1 >= 0 || this.loop) {
             this.setPage(this.pageNumber - 1);
         }
     };
