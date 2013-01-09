@@ -92,7 +92,14 @@ The direction of the pagination. If the new page number is greater than the prev
 
 
 ## Examples
-_(Coming soon)_
+
+	$('#paginationNav').paginationNav({
+        numPages: 10,
+        visibleNums: 6,
+        currentPosition: 2,
+        showFirst: false,
+        showLast: false
+    });
 
 ## Release History
 _(Nothing yet)_

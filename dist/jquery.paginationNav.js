@@ -1,4 +1,4 @@
-/*! jquery.paginationNav - v0.1.0 - 2013-01-08
+/*! jquery.paginationNav - v0.2.0 - 2013-01-09
 * https://github.com/gunderson/jquery.paginationNav
 * Copyright (c) 2013 Patrick Gunderson; Licensed MIT */
 
@@ -9,14 +9,13 @@
     this.defaultSettings = {
         numPages: 0,
         pageNumber: -1,
-        transitionFrom: 1,
-        visiblePrev: 2,
-        visibleNext: 2,
+        direction: 1,
+        visibleNums: 5,
+        currentPosition: null,
         showPrev: true,
         showNext: true,
         showFirst: true,
-        showLast: true,
-        loop: false
+        showLast: true
     };
     $.extend(this, this.defaultSettings);
     $.extend(this, options);
@@ -28,37 +27,35 @@
         if (this.pageNumber != pageNumber){
             //keep the pageNumber within range of this.numPages
             pageNumber %= this.numPages + 1;
-            
+
             //loop if pageNumber is negative
             if (pageNumber < 0){
                 pageNumber += this.numPages;
             }
 
-            if (pageNumber - this.pageNumber < 0){
-                this.transitionFrom = -1;
-            } else {
-                this.transitionFrom = 1;
-            }
+            this.direction = (pageNumber - this.pageNumber > 0) ? 1 : -1;
 
             //build display
             this.rebuild(pageNumber);
 
             //tell the world what you've done
-            this.trigger("setPage", {pageNumber:pageNumber, transitionFrom: this.transitionFrom});
+            this.trigger("setPage", {pageNumber:pageNumber, direction: this.direction});
         }
     };
 
     /*--------------------------------------------------*/
 
-    this.rebuild = function(pageNumber, visiblePrev, visibleNext, showPrev, showNext, showFirst, showLast) {
+    this.rebuild = function(pageNumber) {
 
         this.pageNumber = pageNumber || 0;
-        visiblePrev = visiblePrev || this.defaultSettings.visiblePrev;
-        visibleNext = visibleNext || this.defaultSettings.visibleNext;
-        showPrev = showPrev || this.defaultSettings.showPrev;
-        showNext = showNext || this.defaultSettings.showNext;
-        showFirst = showFirst || this.defaultSettings.showFirst;
-        showLast = showLast || this.defaultSettings.showLast;
+        var currentPosition = this.currentPosition || Math.floor(this.visibleNums * 0.5);
+        var visiblePrev = visiblePrev || currentPosition;
+        var visibleNext = visibleNext || this.visibleNums - currentPosition - 1;
+        var showPrev = showPrev || this.showPrev;
+        var showNext = showNext || this.showNext;
+        var showFirst = showFirst || this.showFirst;
+        var showLast = showLast || this.showLast;
+
 
         var startNumber = this.pageNumber - visiblePrev;
         if (startNumber <= 0) {
@@ -68,8 +65,9 @@
 
         var endNumber = this.pageNumber + visibleNext;
         if (endNumber >= this.numPages) {
-            endNumber = this.numPages;
-            startNumber = this.numPages - (visiblePrev + visibleNext);
+            endNumber = this.numPages - 1;
+            visiblePrev += visibleNext
+            startNumber = Math.max(0, this.numPages - (visiblePrev) - 1);
         }
 
         var html = "";
@@ -116,7 +114,7 @@
     /*--------------------------------------------------*/
 
     this.nextPage = function() {
-        if (this.pageNumber + 1 < this.numPages || this.loop) {
+        if (this.pageNumber + 1 < this.numPages) {
             this.setPage(this.pageNumber + 1);
         }
     };
@@ -124,7 +122,7 @@
     /*--------------------------------------------------*/
 
     this.prevPage = function() {
-        if (this.pageNumber - 1 >= 0 || this.loop) {
+        if (this.pageNumber - 1 >= 0) {
             this.setPage(this.pageNumber - 1);
         }
     };

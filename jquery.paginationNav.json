@@ -2,7 +2,7 @@
   "name": "jquery.paginationNav",
   "title": "jquery.paginationNav",
   "description": "A jquery plugin that makes a numbered list in order to easily facilitate paging through lists.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/gunderson/jquery.paginationNav",
   "author": {
     "name": "Patrick Gunderson",
