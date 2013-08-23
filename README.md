@@ -103,3 +103,7 @@ The direction of the pagination. If the new page number is greater than the prev
 
 ## Release History
 _(Nothing yet)_
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gunderson/jquery.paginationnav/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
